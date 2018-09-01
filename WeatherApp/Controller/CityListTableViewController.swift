@@ -22,7 +22,10 @@ class CityListTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         //self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
+       
+        refreshControl = UIRefreshControl()
+        refreshControl?.attributedTitle = NSAttributedString(string: "Updating...")
+        refreshControl?.addTarget(self, action: #selector(CityListTableViewController.refresh), for: UIControlEvents.valueChanged)
        
         
         self.tableView.backgroundColor = UIColor.blue
@@ -65,25 +68,29 @@ class CityListTableViewController: UITableViewController {
     }
 
 
-    /*
+ 
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
-        return true
+        if indexPath.row > 1 {
+            return true
+        }else {
+            return false
+        }
     }
-    */
+ 
 
-  /*
+
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+            removeCity(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            
+        } 
     }
-    */
+ 
 
     /*
     // Override to support rearranging the table view.
@@ -119,8 +126,14 @@ class CityListTableViewController: UITableViewController {
             
             if let cityName = cityInputActionSheet.textFields?.first?.text {
                 
-                self.createCityData(name: cityName)
-            
+              //  self.createCityData(name: cityName)
+                let newCity = City(context: self.context)
+                newCity.name = cityName
+                newCity.temp = 0.0
+                
+                self.citiesArray.append(newCity)
+                self.tableView.reloadData()
+                
             }
 
             }))
@@ -139,7 +152,7 @@ class CityListTableViewController: UITableViewController {
         
         //text setup for cell
         cell.textLabel?.text = cityName
-        cell.detailTextLabel?.text = String(temp)
+        cell.detailTextLabel?.text = String(temp) + "°"
     
         return cell
     }
@@ -153,7 +166,6 @@ class CityListTableViewController: UITableViewController {
         }catch{
             print("Error saving context \(error)")
         }
-        self.tableView.reloadData()
     }
     
     func loadCity(){
@@ -162,7 +174,7 @@ class CityListTableViewController: UITableViewController {
         do {
             citiesArray = try context.fetch(request)
         } catch {
-            print("Error load \(error)")
+            print("Error load data: \(error)")
         }
         
         updateWeather()
@@ -174,9 +186,25 @@ class CityListTableViewController: UITableViewController {
                 city.temp = weatherData.main.temp
                 self.tableView.reloadData()
             }) { (error) in
-                print("Error update \(error)")
+                print("Error update data: \(error)")
             }
         }
+    }
+    
+    func removeCity(at index:Int){
+        
+        context.delete(citiesArray[index])
+        citiesArray.remove(at: index)
+        self.saveCity()
+    }
+    
+    @objc func refresh(){
+        updateWeather()
+        let when = DispatchTime.now() + 1 // desired seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.refreshControl?.endRefreshing()
+        }
+        
     }
     
     func createCityData(name:String) {
@@ -191,7 +219,7 @@ class CityListTableViewController: UITableViewController {
             self.tableView.reloadData()
             self.saveCity()
         }) { (error) in
-            print("Error add \(error)")
+            print("Error adding city: \(error)")
         }
         
     }
