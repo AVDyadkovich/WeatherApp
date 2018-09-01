@@ -126,13 +126,7 @@ class CityListTableViewController: UITableViewController {
             
             if let cityName = cityInputActionSheet.textFields?.first?.text {
                 
-              //  self.createCityData(name: cityName)
-                let newCity = City(context: self.context)
-                newCity.name = cityName
-                newCity.temp = 0.0
-                
-                self.citiesArray.append(newCity)
-                self.tableView.reloadData()
+                self.createCityData(name: cityName)
                 
             }
 
