@@ -28,6 +28,11 @@ class CityListTableViewController: UITableViewController {
         self.tableView.backgroundColor = UIColor.blue
         loadCity()
         
+        if citiesArray.count < 2 {
+            createCityData(name: "Vinnytsya")
+            createCityData(name: "Kiev")
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -104,7 +109,7 @@ class CityListTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    @IBAction func AddNewCity(_ sender: Any) {
+    @IBAction func addNewCity(_ sender: Any) {
         let cityInputActionSheet = UIAlertController(title: "City name", message: "Enter city name", preferredStyle: .alert)
         cityInputActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         cityInputActionSheet.addTextField { textField in
@@ -114,18 +119,8 @@ class CityListTableViewController: UITableViewController {
             
             if let cityName = cityInputActionSheet.textFields?.first?.text {
                 
-                NetworkManager.sharedManager.getCurrentWetherData(cityName: cityName, completion: { (weatherData) in
-                    let newCity = City(context: self.context)
-                    
-                    newCity.name = cityName
-                    newCity.temp = weatherData.main.temp
-                    
-                    self.citiesArray.append(newCity)
-                    self.tableView.reloadData()
-                    self.saveCity()
-                }) { (error) in
-                    print("Error add \(error)")
-                }
+                self.createCityData(name: cityName)
+            
             }
 
             }))
@@ -169,6 +164,7 @@ class CityListTableViewController: UITableViewController {
         } catch {
             print("Error load \(error)")
         }
+        
         updateWeather()
     }
     
@@ -181,6 +177,23 @@ class CityListTableViewController: UITableViewController {
                 print("Error update \(error)")
             }
         }
+    }
+    
+    func createCityData(name:String) {
+       
+        NetworkManager.sharedManager.getCurrentWetherData(cityName: name, completion: { (weatherData) in
+            let newCity = City(context: self.context)
+            
+            newCity.name = weatherData.name
+            newCity.temp = weatherData.main.temp
+            
+            self.citiesArray.append(newCity)
+            self.tableView.reloadData()
+            self.saveCity()
+        }) { (error) in
+            print("Error add \(error)")
+        }
+        
     }
 
 }
