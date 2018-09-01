@@ -52,7 +52,13 @@
                             <outlet property="delegate" destination="i2M-kB-CBW" id="1Kb-cQ-zT1"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="JHZ-FC-vn7"/>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="JHZ-FC-vn7">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="G9R-f4-0lG">
+                            <connections>
+                                <action selector="AddNewCity:" destination="i2M-kB-CBW" id="fHM-ym-R1u"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m6l-vS-ZMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
