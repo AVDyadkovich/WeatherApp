@@ -29,12 +29,11 @@ final class NetworkManager {
         
         Alamofire.request(fullURL, method: .get, parameters: params).responseString { response in
             if response.result.isSuccess {
-                let JSONResponce = response.value?.data(using: .utf8)!
+                let JSONResponse = response.value?.data(using: .utf8)!
                 let decoder = JSONDecoder()
                 
                 do {
-                    let weather = try decoder.decode(WeatherDataModel.self, from: JSONResponce!)
-                    
+                    let weather = try decoder.decode(WeatherDataModel.self, from: JSONResponse!)
                     completion(weather)
                 }catch let error{
                     failed(error.localizedDescription)

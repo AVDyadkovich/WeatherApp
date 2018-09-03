@@ -10,38 +10,36 @@ import Foundation
 
 struct WeatherDataModel:Codable {
     
-    let cod:Int
     let name:String
     let main:Main
     let weather:[Weather]
     let wind:Wind
     let clouds:Clouds
     let sys:Sys
-    let dt:Int
+    let dt:Double
     
 }
 struct Wind:Codable {
     let speed:Double
-    let deg:Double
 }
 
 struct Main:Codable {
-    let humidity:Int
+    let humidity:Int16
     let temp:Double
     
 }
 
 struct Weather:Codable {
     let description:String
-    let id:Int
+    let id:Int64
     
 }
 
 struct Sys:Codable {
-    let sunrise: Int
-    let sunset: Int
+    let sunrise: Double
+    let sunset: Double
 }
 
 struct Clouds:Codable {
-    let all:Int
+    let all:Int16
 }

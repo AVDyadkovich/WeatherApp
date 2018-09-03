@@ -43,7 +43,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="koP-Yk-u7v" kind="show" id="9zJ-if-ynb"/>
+                                    <segue destination="koP-Yk-u7v" kind="show" identifier="DetailWeatherID" id="9zJ-if-ynb"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -92,7 +92,7 @@
         <!--Current-->
         <scene sceneID="3mg-bs-h5G">
             <objects>
-                <viewController id="aLe-VC-6by" sceneMemberID="viewController">
+                <viewController id="aLe-VC-6by" customClass="CurrentWeatherViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tPX-H6-lT8">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -127,15 +127,22 @@
                         <viewLayoutGuide key="safeArea" id="Ehy-bl-lgw"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Current" id="qYS-7C-X27"/>
+                    <connections>
+                        <outlet property="cityName" destination="ded-bT-huV" id="adO-5O-xdf"/>
+                        <outlet property="containerView" destination="6lV-YM-Z0j" id="GCs-um-RdU"/>
+                        <outlet property="embeddedView" destination="6lV-YM-Z0j" id="RQr-2K-X87"/>
+                        <outlet property="temperatureLabel" destination="nDy-8z-7zh" id="HJz-Jk-SqK"/>
+                        <outlet property="weatherImage" destination="1no-dE-GUN" id="OLt-2v-EZd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="72m-p5-4V4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1965.5999999999999" y="-1108.6956521739132"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Detail Table View Controller-->
         <scene sceneID="rsP-OR-frq">
             <objects>
-                <tableViewController id="rP1-mc-oXP" sceneMemberID="viewController">
+                <tableViewController id="rP1-mc-oXP" customClass="DetailTableViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="edF-gs-uG5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="349"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -143,15 +150,39 @@
                         <sections>
                             <tableViewSection id="t7v-rX-TNd">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="2kQ-Zp-bpN">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="ZxV-G2-6ai">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZxV-G2-6ai" id="IvP-Tl-GhI">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Weather:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nj7-TY-crY">
+                                                    <rect key="frame" x="16" y="12" width="70" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iAH-CT-7jT">
+                                                    <rect key="frame" x="98" y="12" width="11" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="2kQ-Zp-bpN">
+                                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2kQ-Zp-bpN" id="2Ua-EQ-5Gn">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Humidity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6by-c1-3EC">
-                                                    <rect key="frame" x="16" y="12" width="69" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Humidity:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6by-c1-3EC">
+                                                    <rect key="frame" x="16" y="12" width="74" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -168,7 +199,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="v4r-lw-eN8">
-                                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="88" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="v4r-lw-eN8" id="6F0-rw-KQ7">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -183,30 +214,6 @@
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DGT-CA-6f4">
                                                     <rect key="frame" x="122" y="11" width="11" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="8p0-4u-4Rh">
-                                        <rect key="frame" x="0.0" y="88" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8p0-4u-4Rh" id="Q5X-dt-XPG">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Wind direction:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="92i-Y7-5TU">
-                                                    <rect key="frame" x="16" y="11" width="116" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rCC-u8-bf2">
-                                                    <rect key="frame" x="135" y="11" width="11" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -319,6 +326,22 @@
                             <outlet property="delegate" destination="rP1-mc-oXP" id="Y6E-T3-3An"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="cloudsLabel" destination="ZVR-SD-r07" id="a9r-RD-s6m"/>
+                        <outlet property="humidityLabel" destination="JQz-pk-cbL" id="fCJ-Aa-K9g"/>
+                        <outlet property="lastUpdateLabel" destination="R7h-cG-JYM" id="pgM-zC-XWJ"/>
+                        <outlet property="sunriseLabel" destination="lOU-PR-nOh" id="iEG-Xi-k6v"/>
+                        <outlet property="sunsetLabel" destination="Jaj-pY-SGp" id="npf-NR-CnV"/>
+                        <outlet property="weatherDescLabel" destination="iAH-CT-7jT" id="Vc3-jp-RwZ"/>
+                        <outlet property="windLabel" destination="DGT-CA-6f4" id="8Hb-r9-ffX"/>
+                        <outletCollection property="labelCollection" destination="JQz-pk-cbL" collectionClass="NSMutableArray" id="ufh-yk-Nsl"/>
+                        <outletCollection property="labelCollection" destination="iAH-CT-7jT" collectionClass="NSMutableArray" id="eft-Ip-rf1"/>
+                        <outletCollection property="labelCollection" destination="DGT-CA-6f4" collectionClass="NSMutableArray" id="zpb-Jo-Vhw"/>
+                        <outletCollection property="labelCollection" destination="ZVR-SD-r07" collectionClass="NSMutableArray" id="KDc-yO-Ppf"/>
+                        <outletCollection property="labelCollection" destination="lOU-PR-nOh" collectionClass="NSMutableArray" id="J0m-T7-UNg"/>
+                        <outletCollection property="labelCollection" destination="Jaj-pY-SGp" collectionClass="NSMutableArray" id="NwX-Qw-VM3"/>
+                        <outletCollection property="labelCollection" destination="R7h-cG-JYM" collectionClass="NSMutableArray" id="VLV-xM-hrV"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oQv-sF-Ffe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -349,11 +372,10 @@
             </objects>
             <point key="canvasLocation" x="1967" y="-374"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Details Tab Bar Controller-->
         <scene sceneID="i39-cO-Ehr">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="u41-4p-Fh3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tabBarController id="koP-Yk-u7v" sceneMemberID="viewController">
+                <tabBarController id="koP-Yk-u7v" customClass="DetailsTabBarController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="FUH-X5-m5Q">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -365,6 +387,7 @@
                         <segue destination="bCg-wn-kFU" kind="relationship" relationship="viewControllers" id="fvD-BD-5jG"/>
                     </connections>
                 </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u41-4p-Fh3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="986" y="82"/>
         </scene>
