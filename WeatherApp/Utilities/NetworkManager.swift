@@ -20,7 +20,6 @@ final class NetworkManager {
     private let BASE_URL = "https://api.openweathermap.org/data/2.5/"
     private let API_KEY = "f4618d67bc30e2a39cf4406304966382"
     
-    
     static let sharedManager = NetworkManager()
     
     private init () {
@@ -29,14 +28,14 @@ final class NetworkManager {
     
     func getCurrentWetherData (cityName: String, completion: @escaping (_ curentWeather: WeatherDataModel)->(), failed: @escaping (_ error: String) -> ()){
         
-        let params = ["q":cityName, "appid":self.API_KEY, "units": "metric"]
-        let fullURL = BASE_URL + "weather"
+        let params = ["q":cityName, "appid":self.API_KEY, "units": "metric"] // params for city name and celsius
+        let fullURL = BASE_URL + "weather" // make full URL
         
         Alamofire.request(fullURL, method: .get, parameters: params).responseString { response in
             if response.result.isSuccess {
+                // decode respose
                 let JSONResponse = response.value?.data(using: .utf8)!
                 let decoder = JSONDecoder()
-                
                 do {
                     var weather = try decoder.decode(WeatherDataModel.self, from: JSONResponse!)
                     weather.imageName = self.setImageName(condition: (weather.weather.first?.id))
@@ -52,28 +51,27 @@ final class NetworkManager {
         
         let daysN = String(days.rawValue)
 
-        let params = ["q":cityName, "appid":self.API_KEY, "units": "metric","cnt":daysN ]
-        let fullURL = BASE_URL + "forecast/daily"
+        let params = ["q":cityName, "appid":self.API_KEY, "units": "metric","cnt":daysN ] // params for city name, celsius and number of days
+        let fullURL = BASE_URL + "forecast/daily" // full URL for forecast
         
         Alamofire.request(fullURL, method: .get, parameters: params).responseString { response in
             if response.result.isSuccess {
+                //decode response
                 let JSONResponse = response.value?.data(using: .utf8)!
                 let decoder = JSONDecoder()
-                
                 do {
                     var forecast = try decoder.decode(ForecastDataModel.self, from: JSONResponse!)
-                    
                     if days == .threeDays {
+                        // take data for 3 days
                         for i in 0..<3 {
                             forecast.list[i].imageName = self.setImageName(condition: forecast.list[i].weather.first?.id)
                         }
-                        
                     }else {
+                        // take data for 7 days
                         for i in 0..<7 {
                             forecast.list[i].imageName = self.setImageName(condition: forecast.list[i].weather.first?.id)
                         }
                     }
-
                     completion(forecast)
                 }catch let error{
                     failed(error.localizedDescription)

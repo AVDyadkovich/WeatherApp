@@ -16,12 +16,19 @@ class CityListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
        //pull and refresh
         refreshControl = UIRefreshControl()
-        refreshControl?.attributedTitle = NSAttributedString(string: "Updating...")
+        refreshControl?.tintColor = UIColor.white.withAlphaComponent(0.8)
         refreshControl?.addTarget(self, action: #selector(CityListTableViewController.refresh), for: UIControlEvents.valueChanged)
-       
-        self.tableView.backgroundColor = UIColor.blue
+        //set background
+        let bgImage = UIImage(named: "Background")
+        let bgView = UIImageView(image:bgImage)
+        bgView.contentMode = .scaleAspectFill
+        tableView.backgroundView = bgView
+        tableView.backgroundColor = UIColor.white
+        tableView.tableFooterView = UIView() //remove empty cells
+        
         loadAllCities() //load actual data for all cities in list
         
         //add default 2 cities
@@ -39,12 +46,10 @@ class CityListTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return citiesArray.count
     }
     
@@ -52,15 +57,14 @@ class CityListTableViewController: UITableViewController {
         // Configure the cell...
         var cell : UITableViewCell
         let index = indexPath.row
-        
-        cell = createCityCell(cityName: citiesArray[index].name ?? "Error. No name.", temp: citiesArray[index].temp)
+        cell = createCityCell(city: citiesArray[index]) // create cells
         return cell
     }
  
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
-        if indexPath.row > 1 {
+        if indexPath.row > 1 { //not allow to remove 2 default cities
             return true
         }else {
             return false
@@ -80,8 +84,8 @@ class CityListTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //send data to details tab bar
         let tabBarVC = segue.destination as! DetailsTabBarController
-        
         let tableCell = sender as! UITableViewCell
         tabBarVC.selectedCity = loadCity(name: (tableCell.textLabel?.text) ?? "Error. No City.")
         
@@ -89,6 +93,7 @@ class CityListTableViewController: UITableViewController {
 
     //MARK: - Actions
     @IBAction func addNewCity(_ sender: Any) {
+        //add own city
         let cityInputActionSheet = UIAlertController(title: "City name", message: "Enter city name", preferredStyle: .alert)
         cityInputActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         cityInputActionSheet.addTextField { textField in
@@ -111,19 +116,20 @@ class CityListTableViewController: UITableViewController {
         do{
             try context.save()
         }catch{
-            print("Error saving context \(error)")
+            let alert = ErrorHandler.createAllert(with: "Error saving city", error: "\(error)")
+            present(alert, animated: true, completion: nil)
         }
     }
     
     func loadAllCities(){
         let request: NSFetchRequest<City> = City.fetchRequest()
-        
         do {
             citiesArray = try context.fetch(request)
         } catch {
-            print("Error load data: \(error)")
+            let alert = ErrorHandler.createAllert(with: "Error load city list", error: "\(error)")
+            present(alert, animated: true, completion: nil)
         }
-            updateWeather()
+            updateWeather() // update weather data
     }
     
     func loadCity(name:String) -> City? {
@@ -135,35 +141,41 @@ class CityListTableViewController: UITableViewController {
             city = (try context.fetch(request).first)!
             return city
         } catch {
-            print("Error load data: \(error)")
+            let alert = ErrorHandler.createAllert(with: "Error load city", error: "\(error)")
+            present(alert, animated: true, completion: nil)
             return nil
         }
     }
     
     //MARK: - Help Methods
     
-    func createCityCell(cityName:String, temp: Int16) -> UITableViewCell{
+    func createCityCell(city: City) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "CityCellID") ?? UITableViewCell(style: .value1, reuseIdentifier: "CityCellID")
+        let bgImage = UIImage(named: "cellBackground")
         
-        //color setup for cell
+        //design setup for cell
         cell.textLabel?.textColor = UIColor.white
         cell.detailTextLabel?.textColor = UIColor.white
-        cell.backgroundColor = UIColor.blue
+        cell.backgroundColor = UIColor.clear
+        cell.backgroundView = UIImageView(image: bgImage)
+        cell.backgroundView?.contentMode = .scaleAspectFill
         
         //text setup for cell
-        cell.textLabel?.text = cityName
-        cell.detailTextLabel?.text = String(temp) + "°"
-        
+        cell.textLabel?.text = city.name ?? "Error"
+        cell.detailTextLabel?.text = String(city.temp) + "°" 
+
         return cell
     }
     
     func updateWeather(){
         for city in citiesArray {
-            NetworkManager.sharedManager.getCurrentWetherData(cityName: city.name ?? "Error! No city", completion: { (weatherData) in
+            // update weather from OpenWeather
+            NetworkManager.sharedManager.getCurrentWetherData(cityName: city.name!, completion: { (weatherData) in
                 Parser.parseWeatherToCityEntity(weatherData: weatherData, city: city)
                 self.tableView.reloadData()
             }) { (error) in
-                print("Error update data: \(error)")
+                let alert = ErrorHandler.createAllert(with: "Error update data", error: "\(error)")
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }
@@ -175,7 +187,7 @@ class CityListTableViewController: UITableViewController {
     }
     
     @objc func refresh(){
-        updateWeather()
+        updateWeather() // update data
         let when = DispatchTime.now() + 1 // desired seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
             self.refreshControl?.endRefreshing()
@@ -191,7 +203,8 @@ class CityListTableViewController: UITableViewController {
             self.tableView.reloadData()
             self.saveCity()
         }) { (error) in
-            print("Error adding city: \(error)")
+            let alert = ErrorHandler.createAllert(with: "Wrong city", error: "\(error)")
+            self.present(alert, animated: true, completion: nil)
         }
         
     }

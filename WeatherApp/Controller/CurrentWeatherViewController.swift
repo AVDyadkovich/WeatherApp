@@ -10,42 +10,37 @@
 import UIKit
 
 class CurrentWeatherViewController: UIViewController {
-    
+    // Outlets
     @IBOutlet weak var containerView: UIView!
-    
     @IBOutlet weak var temperatureLabel: UILabel!
-    
     @IBOutlet weak var weatherImage: UIImageView!
-    
-    @IBOutlet weak var cityName: UILabel!
+    @IBOutlet weak var cityNameLabel: UILabel!
     
     var detailsTBC:DetailsTabBarController!
-    var containerController:DetailTableViewController!
+    var containerController:DetailTableViewController! //container with table view
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+       // take detail data from tab bar controller
         detailsTBC = self.tabBarController as! DetailsTabBarController
-       
         if let selectedCity = detailsTBC.selectedCity {
-            cityName.text = selectedCity.name
+            cityNameLabel.text = selectedCity.name
+            cityNameLabel.textColor = UIColor.white
             containerController.setLabels(fromCity: selectedCity)
-            
             weatherImage.image = UIImage(named:selectedCity.imageName ?? "NA")
             temperatureLabel.text = String(selectedCity.temp) + "°"
+            temperatureLabel.textColor = UIColor.white
             temperatureLabel.sizeToFit()
         }
-        
-    }
+        // set background
+        let bgImage = UIImage(named: "Background")
+        self.view.backgroundColor = UIColor(patternImage: bgImage!)
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //send data to DetaisTableViewController
+        //send data to container
         let detailsTVC = segue.destination as! DetailTableViewController
         containerController = detailsTVC
     }

@@ -8,49 +8,55 @@
 import UIKit
 
 class ThreeDaysForecastViewController: UIViewController {
-    
+    //Outlet
     @IBOutlet weak var cityNameLabel: UILabel!
-    
-    @IBOutlet weak var dateFirstLabel: UILabel!
-    @IBOutlet weak var dateSecondLabel: UILabel!
-    @IBOutlet weak var dateThirdLabel: UILabel!
-    
-    @IBOutlet weak var firstImageView: UIImageView!
-    @IBOutlet weak var secondImageView: UIImageView!
-    @IBOutlet weak var thirdImageView: UIImageView!
-    
-    @IBOutlet weak var dayTempFirstLabel: UILabel!
-    @IBOutlet weak var dayTempSecondLabel: UILabel!
-    @IBOutlet weak var dayTempThirdLabel: UILabel!
-    
-    @IBOutlet weak var nightTempFirstLabel: UILabel!
-    @IBOutlet weak var nightTempSecondLabel: UILabel!
-    @IBOutlet weak var nightTempThirdLabel: UILabel!
-    
+    //Outlets collections
     @IBOutlet var dayTempCollection: [UILabel]!
     @IBOutlet var nightTempCollection: [UILabel]!
+    @IBOutlet var weatherImageCollection: [UIImageView]!
+    @IBOutlet var dateCollection: [UILabel]!
+    
+    var forecast: ForecastDataModel!
     
     
     override func viewWillAppear(_ animated: Bool) {
         super .viewWillAppear(animated)
         
+        cityNameLabel.textColor = UIColor.white
+        
+        //set label porpeties for different collections
         for label in dayTempCollection {
             label.textColor = UIColor.white
             label.sizeToFit()
         }
         
         for label in nightTempCollection{
-            label.textColor = UIColor.gray
+            label.textColor = UIColor.darkText
             label.sizeToFit()
         }
         
-        let detailsTBC = self.tabBarController as! DetailsTabBarController
-        
-        if let selectedCityName = detailsTBC.selectedCity.name {
-            loadThreeDaysForecast(cityName:selectedCityName)
+        for label in dateCollection{
+            label.textColor = UIColor.white
+            label.sizeToFit()
         }
         
+        // load forecast data from tab bar controller
+        let detailsTBC = self.tabBarController as! DetailsTabBarController
+        if let forecastFromTBC = detailsTBC.forecastThreeDays {
+            forecast = forecastFromTBC
+        }
+        // set background
+        let bgImage = UIImage(named: "Background")
+        self.view.backgroundColor = UIColor(patternImage: bgImage!)
         
+        //set labels
+        cityNameLabel.text = forecast.city.name
+        for index in 0...2 {
+            dateCollection[index].text = Parser.convertTime(time: forecast.list[index].dt, style: .date)
+            weatherImageCollection[index].image = UIImage(named: forecast.list[index].imageName)
+            dayTempCollection[index].text = String(Int(forecast.list[index].temp.day.rounded(.toNearestOrAwayFromZero))) + "°"
+            nightTempCollection[index].text = String(Int(forecast.list[index].temp.night.rounded(.toNearestOrAwayFromZero))) + "°"
+        }   
     }
     
     override func viewDidLoad() {
@@ -58,46 +64,5 @@ class ThreeDaysForecastViewController: UIViewController {
         
         // Do any additional setup after loading the view.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    func loadThreeDaysForecast(cityName: String){
-        
-        NetworkManager.sharedManager.getForecasWetherData(cityName: cityName, days: .threeDays, completion: { (forecast) in
-            let listOne = forecast.list[0]
-            let listTwo = forecast.list[1]
-            let listThree = forecast.list[2]
-            
-            self.cityNameLabel.text = cityName
-            //set dates
-            self.dateFirstLabel.text = Parser.convertTime(time: listOne.dt, style: .date)
-            self.dateSecondLabel.text = Parser.convertTime(time: listTwo.dt, style: .date)
-            self.dateThirdLabel.text = Parser.convertTime(time: listThree.dt, style: .date)
-            //set images
-            self.firstImageView.image = UIImage(named: listOne.imageName)
-            self.secondImageView.image = UIImage(named: listTwo.imageName)
-            self.thirdImageView.image = UIImage(named: listThree.imageName)
-            //set day tempreture
-            self.dayTempFirstLabel.text = String(listOne.temp.day) + "°"
-            self.dayTempSecondLabel.text = String(listTwo.temp.day) + "°"
-            self.dayTempThirdLabel.text = String(listThree.temp.day) + "°"
-            //set night tempreture
-            self.nightTempFirstLabel.text = String(listOne.temp.night) + "°"
-            self.nightTempSecondLabel.text = String(listTwo.temp.night) + "°"
-            self.nightTempThirdLabel.text = String(listThree.temp.night) + "°"
-            
-            
-        }) { (error) in
-            print("Error update data: \(error)")
-        }
-        
-        
-        
-    }
-        
 
 }

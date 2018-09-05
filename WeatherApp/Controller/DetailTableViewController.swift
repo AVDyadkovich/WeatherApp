@@ -11,6 +11,7 @@ import UIKit
 
 
 class DetailTableViewController: UITableViewController {
+    //Outlets
     @IBOutlet weak var weatherDescLabel: UILabel!
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var windLabel: UILabel!
@@ -18,20 +19,14 @@ class DetailTableViewController: UITableViewController {
     @IBOutlet weak var sunriseLabel: UILabel!
     @IBOutlet weak var sunsetLabel: UILabel!
     @IBOutlet weak var lastUpdateLabel: UILabel!
-    
     @IBOutlet var labelCollection: [UILabel]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        tableView.tableFooterView = UIView() // remove empty cells
     }
     
     func setLabels(fromCity city:City){
-        
         weatherDescLabel.text = city.weatherDescript
         humidityLabel.text = String(city.humidity) + "%"
         windLabel.text = String(city.speed) + " m/s"

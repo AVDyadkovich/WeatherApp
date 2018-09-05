@@ -18,6 +18,7 @@ enum dateStyle{
 class Parser{
 
     static  func parseWeatherToCityEntity(weatherData:WeatherDataModel, city: City){
+        // parse data from data model to core data entity
         city.name = weatherData.name
         city.temp = Int16(weatherData.main.temp.rounded(.toNearestOrAwayFromZero))
         city.imageName = weatherData.imageName
@@ -30,26 +31,13 @@ class Parser{
         city.clouds = weatherData.clouds.all
     }
     
-    static  func parseForecastToEntity(weatherData:WeatherDataModel, city: City){
-        city.name = weatherData.name
-        city.temp = Int16(weatherData.main.temp.rounded(.toNearestOrAwayFromZero))
-        city.imageName = weatherData.imageName
-        city.speed = weatherData.wind.speed
-        city.humidity = weatherData.main.humidity
-        city.updateTime = weatherData.dt
-        city.weatherDescript = weatherData.weather.first?.description
-        city.sunriseTime = weatherData.sys.sunrise
-        city.sunsetTime = weatherData.sys.sunset
-        city.clouds = weatherData.clouds.all
-    }
     
     static func convertTime(time:Double, style:dateStyle) ->(String){
         
-        //convert date and time to String
+        //convert date and time to proper format
         
         let date = Date(timeIntervalSince1970: time)
         let dateFormatter = DateFormatter()
-        
         switch style {
         case .dateAndTime:
             dateFormatter.dateFormat = "d MMM y 'at' HH:mm"
@@ -58,7 +46,6 @@ class Parser{
         case .date:
             dateFormatter.dateFormat = "dd/MM"
         }
-
         dateFormatter.timeZone = TimeZone.current
         let localDate = dateFormatter.string(from: date)
         
