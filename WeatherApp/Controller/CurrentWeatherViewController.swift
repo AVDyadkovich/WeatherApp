@@ -27,6 +27,7 @@ class CurrentWeatherViewController: UIViewController {
         if let selectedCity = detailsTBC.selectedCity {
             cityNameLabel.text = selectedCity.name
             cityNameLabel.textColor = UIColor.white
+            cityNameLabel.sizeToFit()
             containerController.setLabels(fromCity: selectedCity)
             weatherImage.image = UIImage(named:selectedCity.imageName ?? "NA")
             temperatureLabel.text = String(selectedCity.temp) + "°"

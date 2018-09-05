@@ -35,6 +35,7 @@ class CityListTableViewController: UITableViewController {
         switch citiesArray.count {
         case 0:
             createCityData(name: "Vinnytsya")
+            createCityData(name: "Kiev")
         case 1:
             createCityData(name: "Kiev")      
         default:
