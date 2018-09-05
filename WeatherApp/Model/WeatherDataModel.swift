@@ -17,7 +17,7 @@ struct WeatherDataModel:Codable {
     let clouds:Clouds
     let sys:Sys
     let dt:Double
-    
+    var imageName:String!
 }
 struct Wind:Codable {
     let speed:Double

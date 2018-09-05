@@ -9,10 +9,6 @@
 
 import UIKit
 
-enum dateStyle{
-    case dateAndTime
-    case time
-}
 
 class DetailTableViewController: UITableViewController {
     @IBOutlet weak var weatherDescLabel: UILabel!
@@ -36,37 +32,16 @@ class DetailTableViewController: UITableViewController {
     
     func setLabels(fromCity city:City){
         
-        weatherDescLabel.text = city.watherDescript
-        humidityLabel.text = String(city.humidity)
+        weatherDescLabel.text = city.weatherDescript
+        humidityLabel.text = String(city.humidity) + "%"
         windLabel.text = String(city.speed) + " m/s"
         cloudsLabel.text = String(city.clouds) + " %"
-        sunriseLabel.text = convertTime(time: city.sunriseTime, style: .time)
-        sunsetLabel.text = convertTime(time: city.sunsetTime, style: .time)
-        lastUpdateLabel.text = convertTime(time: city.updateTime, style: .dateAndTime)
+        sunriseLabel.text = Parser.convertTime(time: city.sunriseTime, style: .time)
+        sunsetLabel.text = Parser.convertTime(time: city.sunsetTime, style: .time)
+        lastUpdateLabel.text = Parser.convertTime(time: city.updateTime, style: .dateAndTime)
         for label in labelCollection{
             label.sizeToFit()
         }
     }
-    
-    //MARK: - Help Methods
-    
-    func convertTime(time:Double, style:dateStyle) ->(String){
-    
-        let date = Date(timeIntervalSince1970: time)
-        let dateFormatter = DateFormatter()
-        
-        switch style {
-        case .dateAndTime:
-            dateFormatter.dateFormat = "d MMM y 'at' HH:mm"
-        case .time:
-            dateFormatter.dateFormat = "HH:mm"
-        }
-        //dateFormatter.doesRelativeDateFormatting = true
-        dateFormatter.timeZone = TimeZone.current
-        let localDate = dateFormatter.string(from: date)
-        
-        return localDate
-    }
-    
 
 }

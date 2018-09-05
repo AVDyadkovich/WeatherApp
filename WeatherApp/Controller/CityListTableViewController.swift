@@ -142,7 +142,7 @@ class CityListTableViewController: UITableViewController {
     
     //MARK: - Help Methods
     
-    func createCityCell(cityName:String, temp: Double) -> UITableViewCell{
+    func createCityCell(cityName:String, temp: Int16) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "CityCellID") ?? UITableViewCell(style: .value1, reuseIdentifier: "CityCellID")
         
         //color setup for cell
@@ -160,7 +160,7 @@ class CityListTableViewController: UITableViewController {
     func updateWeather(){
         for city in citiesArray {
             NetworkManager.sharedManager.getCurrentWetherData(cityName: city.name ?? "Error! No city", completion: { (weatherData) in
-                self.parseWeatherToCityEntity(weatherData: weatherData, city: city)
+                Parser.parseWeatherToCityEntity(weatherData: weatherData, city: city)
                 self.tableView.reloadData()
             }) { (error) in
                 print("Error update data: \(error)")
@@ -186,7 +186,7 @@ class CityListTableViewController: UITableViewController {
     func createCityData(name:String) {
         NetworkManager.sharedManager.getCurrentWetherData(cityName: name, completion: { (weatherData) in
             let newCity = City(context: self.context)
-            self.parseWeatherToCityEntity(weatherData: weatherData, city: newCity)
+            Parser.parseWeatherToCityEntity(weatherData: weatherData, city: newCity)
             self.citiesArray.append(newCity)
             self.tableView.reloadData()
             self.saveCity()
@@ -196,18 +196,4 @@ class CityListTableViewController: UITableViewController {
         
     }
     
-    func parseWeatherToCityEntity(weatherData:WeatherDataModel, city: City){
-        city.name = weatherData.name
-        city.temp = weatherData.main.temp
-        if let weatherID = weatherData.weather.first?.id {
-            city.weatherID = weatherID
-        }
-        city.speed = weatherData.wind.speed
-        city.humidity = weatherData.main.humidity
-        city.updateTime = weatherData.dt
-        city.watherDescript = weatherData.weather.first?.description
-        city.sunriseTime = weatherData.sys.sunrise
-        city.sunsetTime = weatherData.sys.sunset
-        city.clouds = weatherData.clouds.all
-    }
 }

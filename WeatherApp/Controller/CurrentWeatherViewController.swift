@@ -6,6 +6,7 @@
 //  Copyright © 2018 Andrey Dyadkovich. All rights reserved.
 //
 
+
 import UIKit
 
 class CurrentWeatherViewController: UIViewController {
@@ -31,7 +32,7 @@ class CurrentWeatherViewController: UIViewController {
             cityName.text = selectedCity.name
             containerController.setLabels(fromCity: selectedCity)
             
-            weatherImage.image = UIImage(named: updateWeatherIcon(condition: selectedCity.weatherID))
+            weatherImage.image = UIImage(named:selectedCity.imageName ?? "NA")
             temperatureLabel.text = String(selectedCity.temp) + "°"
             temperatureLabel.sizeToFit()
         }
@@ -48,49 +49,4 @@ class CurrentWeatherViewController: UIViewController {
         let detailsTVC = segue.destination as! DetailTableViewController
         containerController = detailsTVC
     }
-    
-    func updateWeatherIcon(condition: Int64) -> String {
-        // set image name for weather image
-        
-        switch (condition) {
-            
-        case 0...299 :
-            return "day_storm"
-            
-        case 300...499 :
-            return "light_rain"
-            
-        case 500...599 :
-            return "showers"
-            
-        case 600...700 :
-            return "light_snow"
-            
-        case 701...771 :
-            return "fog"
-            
-        case 772...799 :
-            return "storm"
-            
-        case 800 :
-            return "sunny"
-            
-        case 801...804 :
-            return "clouds"
-            
-        case 900...903, 905...1000  :
-            return "storm"
-            
-        case 903 :
-            return "snow"
-            
-        case 904 :
-            return "sunny"
-            
-        default :
-            return "NA"
-        }
-        
-    }
-    
 }

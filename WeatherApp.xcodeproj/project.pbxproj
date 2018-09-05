@@ -18,6 +18,9 @@
 		553E6646213B0D22000C7640 /* CurrentWeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553E6645213B0D22000C7640 /* CurrentWeatherViewController.swift */; };
 		553E6648213C1FDD000C7640 /* DetailsTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553E6647213C1FDD000C7640 /* DetailsTabBarController.swift */; };
 		553E664A213C227B000C7640 /* DetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553E6649213C227B000C7640 /* DetailTableViewController.swift */; };
+		558EA1A7213DA1FF00248CF6 /* ForecastDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558EA1A6213DA1FF00248CF6 /* ForecastDataModel.swift */; };
+		558EA1AD213EA6EF00248CF6 /* ThreeDaysForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558EA1AC213EA6EF00248CF6 /* ThreeDaysForecastViewController.swift */; };
+		558EA1AF213EB74900248CF6 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558EA1AE213EB74900248CF6 /* Parser.swift */; };
 		E1498A4E10AD2F8E4C8BB26D /* Pods_WeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2D52241E78E0473526D8F6 /* Pods_WeatherApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +40,9 @@
 		553E6645213B0D22000C7640 /* CurrentWeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherViewController.swift; sourceTree = "<group>"; };
 		553E6647213C1FDD000C7640 /* DetailsTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DetailsTabBarController.swift; path = WeatherApp/Controller/DetailsTabBarController.swift; sourceTree = SOURCE_ROOT; };
 		553E6649213C227B000C7640 /* DetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DetailTableViewController.swift; path = WeatherApp/Controller/DetailTableViewController.swift; sourceTree = SOURCE_ROOT; };
+		558EA1A6213DA1FF00248CF6 /* ForecastDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDataModel.swift; sourceTree = "<group>"; };
+		558EA1AC213EA6EF00248CF6 /* ThreeDaysForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ThreeDaysForecastViewController.swift; path = /Users/Andrey/Projects/WeatherApp/WeatherApp/Controller/ThreeDaysForecastViewController.swift; sourceTree = "<absolute>"; };
+		558EA1AE213EB74900248CF6 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		8B2D52241E78E0473526D8F6 /* Pods_WeatherApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -98,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				553E663B21394B79000C7640 /* WeatherDataModel.swift */,
+				558EA1A6213DA1FF00248CF6 /* ForecastDataModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -113,6 +120,7 @@
 		552C5BFE21389246006D031C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				558EA1AC213EA6EF00248CF6 /* ThreeDaysForecastViewController.swift */,
 				553E6649213C227B000C7640 /* DetailTableViewController.swift */,
 				553E6647213C1FDD000C7640 /* DetailsTabBarController.swift */,
 				553E663621393012000C7640 /* CityListTableViewController.swift */,
@@ -125,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				553E663921393FC4000C7640 /* NetworkManager.swift */,
+				558EA1AE213EB74900248CF6 /* Parser.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -267,7 +276,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				553E664A213C227B000C7640 /* DetailTableViewController.swift in Sources */,
+				558EA1AF213EB74900248CF6 /* Parser.swift in Sources */,
 				553E663A21393FC4000C7640 /* NetworkManager.swift in Sources */,
+				558EA1A7213DA1FF00248CF6 /* ForecastDataModel.swift in Sources */,
+				558EA1AD213EA6EF00248CF6 /* ThreeDaysForecastViewController.swift in Sources */,
 				553E663C21394B79000C7640 /* WeatherDataModel.swift in Sources */,
 				553E6648213C1FDD000C7640 /* DetailsTabBarController.swift in Sources */,
 				552C5BF021388FE0006D031C /* WeatherApp.xcdatamodeld in Sources */,
