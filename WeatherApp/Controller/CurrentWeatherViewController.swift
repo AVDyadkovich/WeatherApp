@@ -21,8 +21,8 @@ class CurrentWeatherViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-       // take detail data from tab bar controller
+        
+        // take detail data from tab bar controller
         detailsTBC = self.tabBarController as! DetailsTabBarController
         if let selectedCity = detailsTBC.selectedCity {
             cityNameLabel.text = selectedCity.name
@@ -37,7 +37,7 @@ class CurrentWeatherViewController: UIViewController {
         // set background
         let bgImage = UIImage(named: "Background")
         self.view.backgroundColor = UIColor(patternImage: bgImage!)
-
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

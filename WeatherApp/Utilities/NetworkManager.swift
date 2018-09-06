@@ -50,7 +50,7 @@ final class NetworkManager {
     func getForecasWetherData (cityName: String, days:daysNumber, completion: @escaping (_ forecast: ForecastDataModel)->(), failed: @escaping (_ error: String) -> ()){
         
         let daysN = String(days.rawValue)
-
+        
         let params = ["q":cityName, "appid":self.API_KEY, "units": "metric","cnt":daysN ] // params for city name, celsius and number of days
         let fullURL = BASE_URL + "forecast/daily" // full URL for forecast
         
@@ -129,5 +129,5 @@ final class NetworkManager {
         }
         
     }
-
+    
 }

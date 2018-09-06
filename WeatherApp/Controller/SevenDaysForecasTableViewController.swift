@@ -21,7 +21,7 @@ class SevenDaysForecasTableViewController: UITableViewController {
         }
         
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // set background
@@ -30,13 +30,13 @@ class SevenDaysForecasTableViewController: UITableViewController {
         bgView.contentMode = .scaleAspectFill
         tableView.backgroundView = bgView
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 7
     }
@@ -57,21 +57,21 @@ class SevenDaysForecasTableViewController: UITableViewController {
         headerView.addSubview(title)
         return headerView
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = createCellForecast(forecast: forecast, indexPath: indexPath) // create cells
         return cell
     }
-
+    
     //MARK: - Help Methods
-
+    
     func createCellForecast(forecast:ForecastDataModel, indexPath:IndexPath) -> ForecastTableViewCell{
         
         let index = indexPath.row
         let list = forecast.list[index]
         let cell = tableView.dequeueReusableCell(withIdentifier: "forecastCell", for: indexPath) as! ForecastTableViewCell
         let bgImage = UIImage(named: "cellBackground")
-
+        
         //setup cell
         cell.dateLabel?.textColor = UIColor.white
         cell.dayTemperatureLabel?.textColor = UIColor.white
@@ -89,5 +89,5 @@ class SevenDaysForecasTableViewController: UITableViewController {
         
         return cell
     }
-
+    
 }

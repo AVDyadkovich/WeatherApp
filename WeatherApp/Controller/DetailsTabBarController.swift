@@ -14,13 +14,13 @@ class DetailsTabBarController: UITabBarController {
     var selectedCity: City!
     var forecastSevenDays:ForecastDataModel!
     var forecastThreeDays:ForecastDataModel!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //Start load forecast data from OpenWeather
         loadSevenDaysForecast(cityName: selectedCity.name ?? "Error")
         loadThreeDaysForecast(cityName: selectedCity.name ?? "Error")
-
+        
     }
     
     func loadSevenDaysForecast(cityName: String){
@@ -33,7 +33,7 @@ class DetailsTabBarController: UITabBarController {
             let alert = ErrorHandler.createAllert(with: "Error load forecast", error: "\(error)")
             self.present(alert, animated: true, completion: nil)
         }
-  
+        
     }
     
     func loadThreeDaysForecast(cityName: String){
@@ -48,5 +48,5 @@ class DetailsTabBarController: UITabBarController {
         }
         
     }
-
+    
 }

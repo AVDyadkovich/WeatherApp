@@ -16,7 +16,7 @@ enum dateStyle{
 
 
 class Parser{
-
+    
     static  func parseWeatherToCityEntity(weatherData:WeatherDataModel, city: City){
         // parse data from data model to core data entity
         city.name = weatherData.name

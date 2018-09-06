@@ -345,7 +345,7 @@
         <scene sceneID="nB0-9d-78N">
             <objects>
                 <viewController id="fV2-DF-d6v" customClass="ThreeDaysForecastViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ilO-jS-JuA">
+                    <view key="view" contentMode="scaleAspectFit" id="ilO-jS-JuA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>

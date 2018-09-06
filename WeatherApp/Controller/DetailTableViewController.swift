@@ -38,5 +38,5 @@ class DetailTableViewController: UITableViewController {
             label.sizeToFit()
         }
     }
-
+    
 }

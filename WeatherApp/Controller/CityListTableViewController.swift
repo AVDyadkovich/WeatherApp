@@ -13,11 +13,22 @@ class CityListTableViewController: UITableViewController {
     
     var citiesArray = [City]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //add default 2 cities
+        if citiesArray.count < 1{
+            createCityData(name: "Vinnytsya")
+            createCityData(name: "Kiev")
+        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       //pull and refresh
+        //pull and refresh
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = UIColor.white.withAlphaComponent(0.8)
         refreshControl?.addTarget(self, action: #selector(CityListTableViewController.refresh), for: UIControlEvents.valueChanged)
@@ -31,25 +42,14 @@ class CityListTableViewController: UITableViewController {
         
         loadAllCities() //load actual data for all cities in list
         
-        //add default 2 cities
-        switch citiesArray.count {
-        case 0:
-            createCityData(name: "Vinnytsya")
-            createCityData(name: "Kiev")
-        case 1:
-            createCityData(name: "Kiev")      
-        default:
-            break
-        }
-        
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return citiesArray.count
     }
@@ -61,7 +61,7 @@ class CityListTableViewController: UITableViewController {
         cell = createCityCell(city: citiesArray[index]) // create cells
         return cell
     }
- 
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
@@ -71,7 +71,7 @@ class CityListTableViewController: UITableViewController {
             return false
         }
     }
-
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -80,9 +80,9 @@ class CityListTableViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .fade)
         } 
     }
-
+    
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //send data to details tab bar
@@ -91,7 +91,7 @@ class CityListTableViewController: UITableViewController {
         tabBarVC.selectedCity = loadCity(name: (tableCell.textLabel?.text) ?? "Error. No City.")
         
     }
-
+    
     //MARK: - Actions
     @IBAction func addNewCity(_ sender: Any) {
         //add own city
@@ -130,7 +130,7 @@ class CityListTableViewController: UITableViewController {
             let alert = ErrorHandler.createAllert(with: "Error load city list", error: "\(error)")
             present(alert, animated: true, completion: nil)
         }
-            updateWeather() // update weather data
+        updateWeather() // update weather data
     }
     
     func loadCity(name:String) -> City? {
@@ -164,7 +164,7 @@ class CityListTableViewController: UITableViewController {
         //text setup for cell
         cell.textLabel?.text = city.name ?? "Error"
         cell.detailTextLabel?.text = String(city.temp) + "°" 
-
+        
         return cell
     }
     
